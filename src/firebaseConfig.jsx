@@ -35,7 +35,6 @@ export async function NewProveedor(data) {
   }
 }
 export async function NewProduct(data) {
-  console.log(data);
   try {
     const docRef = collection(db, "Productos");
     const res = await addDoc(docRef, data);
@@ -59,13 +58,25 @@ export async function GetProveedores() {
 }
 export async function GetProducts() {
   try {
-    const provedores = [{}];
+    const provedores = [];
     const querySnapshot = await getDocs(collection(db, "Productos"));
     querySnapshot.forEach((doc) => {
       provedores.push(doc.data());
     });
 
     return provedores;
+  } catch (error) {}
+}
+
+export async function GetArtLimpieza() {
+  try {
+    const artLimpieza = [];
+    const querySnapshot = await getDocs(collection(db, "Limpieza"));
+    querySnapshot.forEach((doc) => {
+      artLimpieza.push(doc.data());
+    });
+
+    return artLimpieza;
   } catch (error) {}
 }
 const db = getFirestore(app);
