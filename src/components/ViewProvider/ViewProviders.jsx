@@ -49,7 +49,7 @@ const ViewProviders = () => {
           <Tbody color="black">
             {proveedores.map((pro) => (
               <Tr _hover={{ bg: theme.colors.secondary.main, color: " white" }}>
-                <Td>{pro.Nombre}</Td>
+                <Td>{pro.nombre}</Td>
                 <Td>{pro.Precio}</Td>
                 <Td>{pro.tipoProveedor}</Td>
                 <Td>{pro.telefonoproveedor}</Td>

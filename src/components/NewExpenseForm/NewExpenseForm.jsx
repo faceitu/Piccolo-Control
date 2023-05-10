@@ -20,6 +20,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { BsPlusCircle } from "react-icons/bs";
 import ExpenseList from "./ExpenseList";
 import ExpenseForm from "./ExpenseForm";
+import {NewExpense} from "../../firebaseConfig"
 import { couldStartTrivia } from "typescript";
 
 const dateToday = new Date().toLocaleDateString();
@@ -36,7 +37,7 @@ const NewExpenseForm = () => {
   const navigate = useNavigate();
   const { productos, getProduc } = useGetProviders();
   const { artLimpieza, getArtLimpieza } = useGetProviders();
-  const [gastos, SetGastos] = useState([{}]);
+  const [gastos, SetGastos] = useState([]);
   console.log("estos son lsos originakles", productos);
   const [productSelected, setProductSelected] = useState({});
   const [cantProduct, setcantProduct] = useState(1);
@@ -56,10 +57,17 @@ const NewExpenseForm = () => {
   useEffect(() => {
     getProduc();
     getArtLimpieza();
+ 
   }, []);
 
-  const onSubmit = (data) => {
-    reset();
+  const Submit = () => {
+    gastos.forEach((gasto) => {
+     
+       NewExpense(gasto)
+    })
+
+    SetGastos([])
+
   };
 
   return (
@@ -67,7 +75,7 @@ const NewExpenseForm = () => {
       <ExpenseForm props={productos} handleState={handleState}></ExpenseForm>
       <ExpenseForm props={artLimpieza} handleState={handleState}></ExpenseForm>
 
-      <Button>Agregar</Button>
+      <Button onClick={Submit}>Agregar</Button>
 
       <ExpenseList props={gastos}></ExpenseList>
       {/* <Stack spacing={10}>

@@ -13,8 +13,9 @@ import { BsPlusCircle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 
 const ExpenseForm = (props) => {
+  
   const onSubmit = (data) => {
-    console.log("ver la data", data);
+ 
     props.handleState(data);
     reset();
     setCantProducto(1);
@@ -22,7 +23,7 @@ const ExpenseForm = (props) => {
   };
 
   const [cantProducto, setCantProducto] = useState(1);
-
+  const Fecha = new Date().toLocaleDateString();
   const handleCantidad = (event) => {
     setCantProducto(event.target.value);
     setValue("PrecioProducto", Number(productSelected.Precio * cantProducto));
@@ -35,8 +36,9 @@ const ExpenseForm = (props) => {
       props.props.find((p) => p.Nombre === event.target.value)
     );
 
-    console.log(productSelected);
+   
     setValue("PrecioProducto", productSelected.Precio);
+    setValue("FechaProducto", Fecha)
   };
   const {
     register,
@@ -102,7 +104,7 @@ const ExpenseForm = (props) => {
               {...register("FechaProducto")}
               color="black"
               type="text"
-              /*  value={Fecha} */
+             
               disabled
             ></Input>
           </FormControl>

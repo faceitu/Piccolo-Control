@@ -45,9 +45,22 @@ export async function NewProduct(data) {
   }
 }
 
+export async function NewExpense(data) {
+  try {
+    const docRef = collection(db, "Gastos");
+    const res = await addDoc(docRef, data);
+    alert("guardado exitoso");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
+
 export async function GetProveedores() {
   try {
-    const provedores = [{}];
+    const provedores = [];
     const querySnapshot = await getDocs(collection(db, "Proveedores"));
     querySnapshot.forEach((doc) => {
       provedores.push(doc.data());
@@ -67,7 +80,17 @@ export async function GetProducts() {
     return provedores;
   } catch (error) {}
 }
+export async function GetGasto() {
+  try {
+    const gastos = [];
+    const querySnapshot = await getDocs(collection(db, "Gastos"));
+    querySnapshot.forEach((doc) => {
+      gastos.push(doc.data());
+    });
 
+    return gastos;
+  } catch (error) {}
+}
 export async function GetArtLimpieza() {
   try {
     const artLimpieza = [];

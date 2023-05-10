@@ -51,6 +51,8 @@ const HamburgerMenu = ({ children }) => {
               <Linkto to="/lista-proovedores">Ver Proveedores</Linkto>
               <Linkto to="/lista-productos">Ver Productos</Linkto>
               <Linkto to="/gastos">Ingresar gastos</Linkto>
+              <Linkto to="/lista-gastos">Ver gastos</Linkto>
+
             </Stack>
           </DrawerBody>
         </DrawerContent>

@@ -12,7 +12,7 @@ import ViewProducts from "../components/ViewProducs/ViewProducts";
 import NewProductForm from "../components/NewProductForm/NewProduc";
 import NewExpense from "../components/NewExpenseForm/NewExpenseForm";
 import NewExpenseForm from "../components/NewExpenseForm/NewExpenseForm";
-
+import ViewExpenses from '../components/ViewExpenses/ViewExpenses'
 const Rutas = () => {
   return (
     <Routes>
@@ -22,7 +22,8 @@ const Rutas = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/alta-proovedores" element={<NewProvider />} />
       <Route path="/lista-productos" element={<ViewProducts />} />
-      <Route path="/lista-proovedores" element={<ViewProviders />} />
+      <Route path="/lista-proovedores" element={<ViewProviders/>} />
+      <Route path="/lista-gastos" element={<ViewExpenses />} />
       <Route path="/nuevo-producto" element={<NewProductForm />} />
     </Routes>
   );
