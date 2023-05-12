@@ -85,6 +85,7 @@ export async function GetGasto() {
     const gastos = [];
     const querySnapshot = await getDocs(collection(db, "Gastos"));
     querySnapshot.forEach((doc) => {
+      console.log('se ejecuto getgastos del firebase')
       gastos.push(doc.data());
     });
 

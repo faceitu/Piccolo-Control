@@ -29,6 +29,7 @@ const useGetProviders = (props) => {
   const getGastos = async () => {
     const prod = await GetGasto();
     setGastos(prod);
+    console.log('se ejecuto getgastosdel hook')
   };
   return {
     proveedores,

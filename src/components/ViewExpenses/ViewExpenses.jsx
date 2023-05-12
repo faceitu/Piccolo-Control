@@ -21,7 +21,7 @@ const ViewExpense = () => {
   const { gastos, getGastos } = useGetProviders();
   const [gastoTotal, setGastoTotal] = useState(0)
   const [cantTotal, setCantTotal] = useState(0)
-  const navigate = useNavigate();
+  
 
   const getTotalProducts = () => {
       let total = 0
@@ -34,19 +34,32 @@ const ViewExpense = () => {
   const getTotalCant = () => {
     let total = 0
     gastos.map(gasto => {
-      console.log(gasto.CantidadProducto)
+      console.log('Entra al contador de cantidad')
+      console.log(gastos)
     total = total +  Number(gasto.CantidadProducto)
    })
  
    return total
 }
-  console.log('los estados:',gastoTotal, cantTotal,gastos)
-  console.log(getTotalProducts())
-  console.log(getTotalCant())
+
+console.log('el de a fuera')
+console.log(getTotalProducts())
+
   useEffect(() => {
-    getGastos();
+
+    getGastos().then(() => {
+      console.log('el useeffect')
+      console.log('la  promesa')   
+      console.log('los gatos', gastos)
+    });
+    getGastos()
+    console.log('se ejecuto el getgastos')
+    console.log(getTotalProducts())
+    console.log('los sets')
     setGastoTotal(getTotalProducts())
     setCantTotal(getTotalCant())
+    console.log('los gatos', gastos)
+
   }, []);
 
 
@@ -94,7 +107,7 @@ const ViewExpense = () => {
                  {cantTotal}
                 </Th>
                 <Th fontSize={20}>
-                {gastoTotal} 
+                { gastoTotal } 
                 </Th>
                 <Th>
                   -
