@@ -18,11 +18,11 @@ import NewProducForm from "../NewProductForm/NewProduc";
 import { useNavigate } from "react-router-dom";
 
 const ViewProducts = () => {
-  const { productos, getProduc } = useGetProviders();
+  const { productos } = useGetProviders();
   const navigate = useNavigate();
 
   useEffect(() => {
-    getProduc();
+
   }, []);
 
   return (

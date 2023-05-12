@@ -1,7 +1,8 @@
 import React from "react";
+import NewSaleForm from '../../components/NewSale/NewSaleForm'
 
 const Home = () => {
-  return <div>HOME</div>;
+  return <NewSaleForm></NewSaleForm>
 };
 
 export default Home;

@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 const ViewExpense = () => {
   const { gastos, getGastos } = useGetProviders();
+
   const [gastoTotal, setGastoTotal] = useState(0)
   const [cantTotal, setCantTotal] = useState(0)
   
@@ -31,36 +32,22 @@ const ViewExpense = () => {
      return total
   }
 
-  const getTotalCant = () => {
+  const  getTotalCant = () => {
     let total = 0
     gastos.map(gasto => {
-      console.log('Entra al contador de cantidad')
-      console.log(gastos)
     total = total +  Number(gasto.CantidadProducto)
    })
  
    return total
 }
 
-console.log('el de a fuera')
-console.log(getTotalProducts())
+
 
   useEffect(() => {
-
-    getGastos().then(() => {
-      console.log('el useeffect')
-      console.log('la  promesa')   
-      console.log('los gatos', gastos)
-    });
-    getGastos()
-    console.log('se ejecuto el getgastos')
-    console.log(getTotalProducts())
-    console.log('los sets')
     setGastoTotal(getTotalProducts())
     setCantTotal(getTotalCant())
-    console.log('los gatos', gastos)
 
-  }, []);
+  }, [gastos]);
 
 
   return (
@@ -91,7 +78,7 @@ console.log(getTotalProducts())
                   bg: theme.colors.secondary.main,
                   color: " white",
                 }}
-              >
+              > 
                 <Td>{pro.NombrePrducto}</Td>
                 <Td>{pro.CantidadProducto}</Td>
                 <Td>{pro.PrecioProducto}</Td>

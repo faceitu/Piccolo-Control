@@ -10,19 +10,13 @@ import {
   border,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { GetProducts, NewProduct } from "../../firebaseConfig";
-import theme from "../../theme";
-import DatePicker from "react-datepicker";
 import { useNavigate } from "react-router-dom";
 import useGetProviders from "../../CustomHooks/GetProviders/useGetProviders";
 import { getDateFormat } from "../../utils/formatDate";
 import "react-datepicker/dist/react-datepicker.css";
-import { BsPlusCircle } from "react-icons/bs";
 import ExpenseList from "./ExpenseList";
 import ExpenseForm from "./ExpenseForm";
 import {NewExpense} from "../../firebaseConfig"
-import { couldStartTrivia } from "typescript";
-
 const dateToday = new Date().toLocaleDateString();
 
 const NewExpenseForm = () => {
@@ -34,11 +28,13 @@ const NewExpenseForm = () => {
     reset,
   } = useForm();
 
-  const navigate = useNavigate();
-  const { productos, getProduc } = useGetProviders();
-  const { artLimpieza, getArtLimpieza } = useGetProviders();
+
+  const { productos,artLimpieza } = useGetProviders();
+ 
+
   const [gastos, SetGastos] = useState([]);
   console.log("estos son lsos originakles", productos);
+
   const [productSelected, setProductSelected] = useState({});
   const [cantProduct, setcantProduct] = useState(1);
   const [Fecha, setFecha] = useState(dateToday);
@@ -55,14 +51,12 @@ const NewExpenseForm = () => {
   };
 
   useEffect(() => {
-    getProduc();
-    getArtLimpieza();
+    
  
   }, []);
 
   const Submit = () => {
     gastos.forEach((gasto) => {
-     
        NewExpense(gasto)
     })
 

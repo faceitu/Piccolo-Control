@@ -20,10 +20,10 @@ import useGetProviders from "../../CustomHooks/GetProviders/useGetProviders";
 import { color } from "framer-motion";
 
 const ViewProviders = () => {
-  const { proveedores, getProv } = useGetProviders();
+  const { proveedores} = useGetProviders();
 
   useEffect(() => {
-    getProv();
+  
   }, []);
 
   return (

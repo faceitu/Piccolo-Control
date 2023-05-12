@@ -83,7 +83,8 @@ const ExpenseForm = (props) => {
           <FormControl>
             <FormLabel fontSize={20}>Cantidad</FormLabel>
             <Input
-              {...register("CantidadProducto")}
+              {...register("CantidadProducto", {min: 1, max: 99 })}
+              
               color="black"
               type="number"
               onChange={handleCantidad}

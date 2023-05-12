@@ -56,7 +56,27 @@ export async function NewExpense(data) {
   }
 }
 
+export async function NewSale(data) {
+  try {
+    const docRef = collection(db, "Ventas");
+    const res = await addDoc(docRef, data);
+    alert("guardado exitoso");
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function GetVentas() {
+  try {
+    const ventas = [];
+    const querySnapshot = await getDocs(collection(db, "Ventas"));
+    querySnapshot.forEach((doc) => {
+      ventas.push(doc.data());
+    });
 
+    return ventas;
+  } catch (error) {}
+}
 
 export async function GetProveedores() {
   try {
@@ -85,7 +105,7 @@ export async function GetGasto() {
     const gastos = [];
     const querySnapshot = await getDocs(collection(db, "Gastos"));
     querySnapshot.forEach((doc) => {
-      console.log('se ejecuto getgastos del firebase')
+
       gastos.push(doc.data());
     });
 
