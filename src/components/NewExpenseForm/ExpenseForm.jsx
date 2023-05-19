@@ -7,15 +7,13 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import theme from "../../theme";
 import { BsPlusCircle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 
 const ExpenseForm = (props) => {
-  
   const onSubmit = (data) => {
- 
     props.handleState(data);
     reset();
     setCantProducto(1);
@@ -24,9 +22,14 @@ const ExpenseForm = (props) => {
 
   const [cantProducto, setCantProducto] = useState(1);
   const Fecha = new Date().toLocaleDateString();
+
   const handleCantidad = (event) => {
     setCantProducto(event.target.value);
-    setValue("PrecioProducto", Number(productSelected.Precio * cantProducto));
+
+    setValue(
+      "PrecioProducto",
+      Number(productSelected.Precio * event.target.value)
+    );
   };
 
   const [productSelected, setProductSelected] = useState({});
@@ -35,11 +38,10 @@ const ExpenseForm = (props) => {
     setProductSelected(
       props.props.find((p) => p.Nombre === event.target.value)
     );
-
-   
     setValue("PrecioProducto", productSelected.Precio);
-    setValue("FechaProducto", Fecha)
+    setValue("FechaProducto", Fecha);
   };
+
   const {
     register,
     handleSubmit,
@@ -49,6 +51,10 @@ const ExpenseForm = (props) => {
     watch,
     setValue,
   } = useForm();
+
+  useEffect(() => {
+    setValue("PrecioProducto", productSelected.Precio);
+  }, [productSelected]);
 
   return (
     <form
@@ -83,8 +89,7 @@ const ExpenseForm = (props) => {
           <FormControl>
             <FormLabel fontSize={20}>Cantidad</FormLabel>
             <Input
-              {...register("CantidadProducto", {min: 1, max: 99 })}
-              
+              {...register("CantidadProducto", { min: 1, max: 99 })}
               color="black"
               type="number"
               onChange={handleCantidad}
@@ -105,7 +110,6 @@ const ExpenseForm = (props) => {
               {...register("FechaProducto")}
               color="black"
               type="text"
-             
               disabled
             ></Input>
           </FormControl>
