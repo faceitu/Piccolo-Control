@@ -7,10 +7,11 @@ const theme = extendTheme({
        
       },
      secondary: {
-        main: "#f8835a",
-        dos: '#f8956e',
-        tres: '#f8a782',
-        cuatro: '#f9ba97'
+        main: "#884299",
+        dos: '#884299',
+        tres: '#fff0ff',
+        cuatro: '#dbb6ee'
+        
 
 
 
@@ -21,7 +22,7 @@ const theme = extendTheme({
     Button: {
       variants: {
         "Mybutton": {
-          bg: "#f5781b",
+          bg: "#884299",
           boxShadow: "0 0 2px 2px #efdfde",
           color: 'white'
         },    

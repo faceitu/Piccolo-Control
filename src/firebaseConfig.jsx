@@ -85,8 +85,9 @@ export async function GetProveedores() {
     querySnapshot.forEach((doc) => {
       provedores.push(doc.data());
     });
-
+  
     return provedores;
+    
   } catch (error) {}
 }
 export async function GetProducts() {
