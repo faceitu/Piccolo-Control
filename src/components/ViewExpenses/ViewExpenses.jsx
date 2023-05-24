@@ -20,12 +20,27 @@ import theme from "../../theme";
 import useGetProviders from "../../CustomHooks/GetProviders/useGetProviders";
 import { useNavigate } from "react-router-dom";
 import { prodErrorMap } from "firebase/auth";
+import EditModal from "../editModal/EditModal";
+import { useDisclosure } from "@chakra-ui/react";
+
+
+
 const ViewExpense = () => {
   const { gastos } = useGetProviders();
   const [gastoTotal, setGastoTotal] = useState(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [currentSearch, setCurrentSearch] = useState("");
-  
+  const [open, setOpen] = useState(false)
+  const [dataForm, setDataForm] = useState([])
+  const onOpen = (data) => {
+    setOpen(true)
+    setDataForm(data)
+  }
+  const Close = () => {
+    setDataForm([])
+    setOpen(false)
+  }
+
   const expenseDates = () => {
     return gastos.map((gasto) => gasto.FechaProducto);
   };
@@ -113,14 +128,13 @@ const ViewExpense = () => {
               <Tr
                 _hover={{
                   bg: theme.colors.secondary.main,
-                  
                 }}
               >
                 <Td>{pro.NombrePrducto}</Td>
                 <Td>{pro.CantidadProducto}</Td>
                 <Td>{pro.PrecioProducto}</Td>
                 <Td>{pro.FechaProducto}</Td>
-                <Td><Button size={'sm'}>Editar</Button></Td>
+                <Td><Button size={'sm'} onClick={() => onOpen(pro)}>Editar</Button></Td>
               </Tr>
             ))}
           </Tbody>
@@ -128,9 +142,9 @@ const ViewExpense = () => {
       </TableContainer>
        <Stack>
        <Text fontSize={20}> Gastos TOTAL: ${getExpensesDate()}</Text>
-
+        
        </Stack>     
-                    
+       <EditModal isOpen = {open} isClose = {Close} data = {dataForm}></EditModal>
     </Stack>
   );
 };

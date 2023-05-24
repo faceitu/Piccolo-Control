@@ -20,7 +20,7 @@ import {
 import { useForm, useFieldArray } from "react-hook-form";
 import { NewProduct } from "../../firebaseConfig";
 import theme from "../../theme";
-
+import EditModal from '../editModal/EditModal'
 import { Navigate, useNavigate } from "react-router-dom";
 
 const NewProductForm = () => {
