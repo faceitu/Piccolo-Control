@@ -1,55 +1,50 @@
 import {
-    Modal,
-    ModalOverlay,
-    ModalContent,
-    ModalHeader,
-    ModalFooter,
-    ModalBody,
-    ModalCloseButton,
-    Button,
-    Input,
-    
-  } from '@chakra-ui/react'
-  import { useDisclosure } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Button,
+  Input,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 
-const EditModal = (props) => { 
-  console.log(props.data)
-  const [open, setOpen] = useState(props.isOpen)
-  
-  const onClose = ()=> {
-    props.isClose()
-  }
-
-  useEffect(() => {
-    setOpen(props.isOpen)
-  }, [props.isOpen]);
-
-    return (
-      <>
-      {console.log('hola',open)}
-      <Modal isOpen={open} onClose={onClose}>
+const EditModal = (props) => {
+  return (
+    <>
+      <Modal isOpen={props.isOpen} onClose={props.onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Modal Title</ModalHeader>
+          <ModalHeader>Editar</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Input placeholder = {props.data.NombrePrducto} ></Input>
-            <Input placeholder= {props.data.CantidadProducto}></Input>
-            <Input placeholder = {props.data.PrecioProducto} ></Input>
+            <FormControl>
+              <FormLabel fontSize={20}>Nombre del producto</FormLabel>
+              <Input placeholder={props.data.NombrePrducto}></Input>
+              <FormLabel fontSize={20}>Cantidad</FormLabel>
+              <Input placeholder={props.data.CantidadProducto}></Input>
+              <FormLabel fontSize={20}>Precio</FormLabel>
+              <Input placeholder={props.data.PrecioProducto}></Input>
+            </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme='blue' mr={3} >
+            <Button colorScheme="blue" mr={3}>
               Save
             </Button>
-            <Button colorScheme='blue' mr={3} onClick={onClose}>Close</Button>
+            <Button colorScheme="blue" mr={3} onClick={props.onClose}>
+              Close
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
     </>
-    );
-}
+  );
+};
 
-export default EditModal
-
+export default EditModal;

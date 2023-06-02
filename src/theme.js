@@ -1,6 +1,11 @@
 import {extendTheme} from "@chakra-ui/react";
 
 const theme = extendTheme({
+  fonts: {
+    heading: `'Open Sans', sans-serif`,
+    body: `'Raleway', sans-serif`,
+  },
+
     colors: {
       primary: {
        main: "#fcfcfc",
@@ -11,12 +16,8 @@ const theme = extendTheme({
         dos: '#884299',
         tres: '#fff0ff',
         cuatro: '#dbb6ee'
-        
-
-
 
       }
-
    },
    components: {
     Button: {

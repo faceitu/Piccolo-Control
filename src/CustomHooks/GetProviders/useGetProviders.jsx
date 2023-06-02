@@ -4,11 +4,10 @@ import {
   GetProveedores,
   GetArtLimpieza,
   GetGasto,
-  GetVentas
+  GetVentas,
 } from "../../firebaseConfig";
 
-const useGetProviders = (props) => {
-
+const useGetProviders = () => {
   const [proveedores, setProveedores] = useState([{}]);
   const [productos, setProductos] = useState([{}]);
   const [artLimpieza, setArtLimpieza] = useState([{}]);
@@ -34,14 +33,14 @@ const useGetProviders = (props) => {
   const getVentas = async () => {
     const prod = await GetVentas();
     setVentas(prod);
-  }
+  };
 
   useEffect(() => {
-    getGastos()
-    getArtLimpieza()
-    getProduc()
-    getProv()
-    getVentas()
+    getGastos();
+    getArtLimpieza();
+    getProduc();
+    getProv();
+    getVentas();
   }, []);
 
   return {
@@ -49,7 +48,7 @@ const useGetProviders = (props) => {
     productos,
     artLimpieza,
     gastos,
-    ventas 
+    ventas,
   };
 };
 export default useGetProviders;

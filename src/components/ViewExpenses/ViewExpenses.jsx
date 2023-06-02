@@ -13,7 +13,7 @@ import {
   Th,
   Thead,
   Tr,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import theme from "../../theme";
@@ -22,24 +22,30 @@ import { useNavigate } from "react-router-dom";
 import { prodErrorMap } from "firebase/auth";
 import EditModal from "../editModal/EditModal";
 import { useDisclosure } from "@chakra-ui/react";
-
-
+import Paginator from "../Paginator/Paginator";
+import usePaginator from "../../CustomHooks/usePaginator";
+import Loader from "../Loader/Loader";
 
 const ViewExpense = () => {
   const { gastos } = useGetProviders();
   const [gastoTotal, setGastoTotal] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
   const [currentSearch, setCurrentSearch] = useState("");
-  const [open, setOpen] = useState(false)
-  const [dataForm, setDataForm] = useState([])
-  const onOpen = (data) => {
-    setOpen(true)
-    setDataForm(data)
-  }
-  const Close = () => {
-    setDataForm([])
-    setOpen(false)
-  }
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [dataForm, setDataForm] = useState([]);
+
+  const {
+    currenPage,
+    totalItems,
+    itemsToShow,
+    nextPage,
+    backPage,
+    showPerpage,
+  } = usePaginator();
+  console.log("itemtoShowe", itemsToShow);
+  const MyonOpen = (data) => {
+    onOpen();
+    setDataForm(data);
+  };
 
   const expenseDates = () => {
     return gastos.map((gasto) => gasto.FechaProducto);
@@ -54,44 +60,18 @@ const ViewExpense = () => {
     });
     return expensesDay;
   };
-   const filter = () => {
-     return gastos.filter(
-      (gasto) => gasto.FechaProducto === currentSearch
-    ); 
-  }
-  const currentExpenses = () => {
-    if (!currentSearch) {
-      return gastos.slice(currentPage, currentPage + 10);
-    } else {   
-      return filter().slice(currentPage, currentPage + 10)   
-    }
-  }; 
-  const handleNextPage = () => {
-      if (gastos.length - currentPage > 10)
-    {
-      if (currentExpenses().length > 9) {
-         setCurrentPage(currentPage + 10);
-      }
-    }
-  };
-  const handleBackPage = () => {
-    if (currentPage >= 10) {
-    setCurrentPage(currentPage - 10)}
+  const filter = () => {
+    return gastos.filter((gasto) => gasto.FechaProducto === currentSearch);
   };
 
   const handleChange = (event) => {
-    setCurrentPage(0);
     setCurrentSearch(event.target.value);
   };
 
-  useEffect(() => {
-    
-  }, [gastos]);
+  useEffect(() => {}, []);
 
   return (
     <Stack direction={"column"} width="80vw" margin={"auto"}>
-      <Button onClick={handleNextPage}>Siguiente</Button>
-      <Button onClick={handleBackPage}>Atras</Button>
       <FormControl alignItems={"center"}>
         <FormLabel fontSize={20}>Producto</FormLabel>
         <Select
@@ -112,7 +92,6 @@ const ViewExpense = () => {
           size="sm"
           margin={"auto"}
           bg={theme.colors.secondary.cuatro}
-          
         >
           <TableCaption>Imperial to metric conversion factors</TableCaption>
           <Thead>
@@ -124,27 +103,42 @@ const ViewExpense = () => {
             </Tr>
           </Thead>
           <Tbody color="black">
-            {currentExpenses().map((pro) => (
-              <Tr
-                _hover={{
-                  bg: theme.colors.secondary.main,
-                }}
-              >
-                <Td>{pro.NombrePrducto}</Td>
-                <Td>{pro.CantidadProducto}</Td>
-                <Td>{pro.PrecioProducto}</Td>
-                <Td>{pro.FechaProducto}</Td>
-                <Td><Button size={'sm'} onClick={() => onOpen(pro)}>Editar</Button></Td>
-              </Tr>
-            ))}
+            {itemsToShow.map((pro) => {
+              console.log("ENTRAA");
+              console.log(pro.PrecioProducto);
+              console.log(currenPage);
+              return (
+                <Tr
+                  _hover={{
+                    bg: theme.colors.secondary.main,
+                  }}
+                >
+                  <Td>{pro.NombrePrducto}</Td>
+                  <Td>{pro.CantidadProducto}</Td>
+                  <Td>{pro.PrecioProducto}</Td>
+                  <Td>{pro.FechaProducto}</Td>
+                  <Td>
+                    <Button size={"sm"} onClick={() => MyonOpen(pro)}>
+                      Editar
+                    </Button>
+                  </Td>
+                </Tr>
+              );
+            })}
           </Tbody>
         </Table>
       </TableContainer>
-       <Stack>
-       <Text fontSize={20}> Gastos TOTAL: ${getExpensesDate()}</Text>
-        
-       </Stack>     
-       <EditModal isOpen = {open} isClose = {Close} data = {dataForm}></EditModal>
+      <Stack>
+        <Text fontSize={20}> Gastos TOTAL: ${getExpensesDate()}</Text>
+      </Stack>
+      <Paginator
+        currentPage={currenPage}
+        nextPage={nextPage}
+        backPage={backPage}
+        totalItems={totalItems}
+        showPerpage={showPerpage}
+      ></Paginator>
+      <EditModal isOpen={isOpen} onClose={onClose} data={dataForm}></EditModal>
     </Stack>
   );
 };

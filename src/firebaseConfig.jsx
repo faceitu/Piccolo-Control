@@ -12,7 +12,15 @@ import {
   ssetDoc,
   deleteDoc,
   getDocs,
+  orderBy,
+  limit,
+  startAfter,
+  startAt,
+  onSnapshot,
+  endBefore,
+  endAt,
 } from "firebase/firestore";
+import { current } from "@reduxjs/toolkit";
 
 export const app = firebase.initializeApp({
   apiKey: "AIzaSyBb0Kpp8ZcEbkP6SiZgtXVFT1ActcvDiEg",
@@ -85,9 +93,8 @@ export async function GetProveedores() {
     querySnapshot.forEach((doc) => {
       provedores.push(doc.data());
     });
-  
+
     return provedores;
-    
   } catch (error) {}
 }
 export async function GetProducts() {
@@ -101,18 +108,21 @@ export async function GetProducts() {
     return provedores;
   } catch (error) {}
 }
+
 export async function GetGasto() {
   try {
-    const gastos = [];
-    const querySnapshot = await getDocs(collection(db, "Gastos"));
-    querySnapshot.forEach((doc) => {
-
-      gastos.push(doc.data());
+    const first = query(collection(db, "Gastos"), orderBy("FechaProducto"));
+    const select = [];
+    onSnapshot(first, (snap) => {
+      snap.docs.forEach((doc) => {
+        select.push(doc.data());
+      });
     });
 
-    return gastos;
+    return select;
   } catch (error) {}
 }
+
 export async function GetArtLimpieza() {
   try {
     const artLimpieza = [];
@@ -124,4 +134,36 @@ export async function GetArtLimpieza() {
     return artLimpieza;
   } catch (error) {}
 }
+
+/* ----------------------------------------- */
+/*  PAGINACION */
+
+export async function getPagination(props) {
+  const { itemPerPage, currenPage, totalItems } = props;
+  const first = query(collection(db, "Gastos"), orderBy("FechaProducto"));
+  const documentSnapshots = await getDocs(first);
+
+  var last = {};
+  if (currenPage === 1) {
+    last = documentSnapshots.docs[currenPage];
+  } else {
+    last = documentSnapshots.docs[currenPage + itemPerPage];
+  }
+
+  let queryy = query(
+    collection(db, "Gastos"),
+    orderBy("FechaProducto"),
+    startAt(last),
+    limit(itemPerPage)
+  );
+  const select = [];
+  onSnapshot(queryy, (snap) => {
+    snap.docs.forEach((doc) => {
+      select.push(doc.data());
+    });
+  });
+
+  return select;
+}
+
 const db = getFirestore(app);
