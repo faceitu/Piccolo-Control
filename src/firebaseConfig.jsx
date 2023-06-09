@@ -139,31 +139,39 @@ export async function GetArtLimpieza() {
 /*  PAGINACION */
 
 export async function getPagination(props) {
-  const { itemPerPage, currenPage, totalItems } = props;
-  const first = query(collection(db, "Gastos"), orderBy("FechaProducto"));
-  const documentSnapshots = await getDocs(first);
+  console.log(props);
+  return new Promise(async (resolve, reject) => {
+    const { itemPerPage, currenPage, totalItems } = props;
 
-  var last = {};
-  if (currenPage === 1) {
-    last = documentSnapshots.docs[currenPage];
-  } else {
-    last = documentSnapshots.docs[currenPage + itemPerPage];
-  }
+    const first = query(
+      collection(db, "Gastos"),
+      where("FechaProducto", "==", props.dataTofilter)
+    );
+    const documentSnapshots = await getDocs(first);
 
-  let queryy = query(
-    collection(db, "Gastos"),
-    orderBy("FechaProducto"),
-    startAt(last),
-    limit(itemPerPage)
-  );
-  const select = [];
-  onSnapshot(queryy, (snap) => {
-    snap.docs.forEach((doc) => {
-      select.push(doc.data());
+    var last = {};
+    if (currenPage === 1) {
+      last = documentSnapshots.docs[currenPage];
+    } else {
+      last = documentSnapshots.docs[currenPage + itemPerPage];
+    }
+
+    let queryy = query(
+      collection(db, "Gastos"),
+      orderBy("FechaProducto"),
+      startAt(last),
+      limit(itemPerPage)
+    );
+
+    const select = [];
+    onSnapshot(queryy, (snap) => {
+      snap.docs.forEach((doc) => {
+        select.push(doc.data());
+      });
+      resolve(select);
     });
+    console.log(reject);
   });
-
-  return select;
 }
 
 const db = getFirestore(app);

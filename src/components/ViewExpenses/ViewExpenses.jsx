@@ -40,8 +40,9 @@ const ViewExpense = () => {
     nextPage,
     backPage,
     showPerpage,
-  } = usePaginator();
-  console.log("itemtoShowe", itemsToShow);
+    Filter,
+  } = usePaginator(currentSearch);
+
   const MyonOpen = (data) => {
     onOpen();
     setDataForm(data);
@@ -65,7 +66,7 @@ const ViewExpense = () => {
   };
 
   const handleChange = (event) => {
-    setCurrentSearch(event.target.value);
+    Filter(event.target.value);
   };
 
   useEffect(() => {}, []);
@@ -79,6 +80,7 @@ const ViewExpense = () => {
           type="text"
           placeholder="Seleccion"
           onChange={handleChange}
+          defaultValue={dateSinRepetir[0]}
         >
           {dateSinRepetir.map((prod) => (
             <option value={prod}>{prod}</option>
@@ -104,9 +106,6 @@ const ViewExpense = () => {
           </Thead>
           <Tbody color="black">
             {itemsToShow.map((pro) => {
-              console.log("ENTRAA");
-              console.log(pro.PrecioProducto);
-              console.log(currenPage);
               return (
                 <Tr
                   _hover={{
@@ -137,6 +136,7 @@ const ViewExpense = () => {
         backPage={backPage}
         totalItems={totalItems}
         showPerpage={showPerpage}
+        filterDate={currentSearch}
       ></Paginator>
       <EditModal isOpen={isOpen} onClose={onClose} data={dataForm}></EditModal>
     </Stack>

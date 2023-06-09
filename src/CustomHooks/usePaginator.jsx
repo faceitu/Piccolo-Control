@@ -7,8 +7,10 @@ const usePaginator = (props) => {
   const [items, setItems] = useState([props]);
   const [itemsToShow, setItemsToShow] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
+  const [dataTofilter, setDataToFilter] = useState("");
 
   const nextPage = () => {
+    console.log(itemsToShow.length, itemPerPage);
     if (!(itemsToShow.length < itemPerPage)) {
       setCurrentPage(currenPage + itemPerPage);
     }
@@ -16,7 +18,6 @@ const usePaginator = (props) => {
 
   const backPage = () => {
     if (!(currenPage - itemPerPage < 0)) {
-      console.log("hola");
       setCurrentPage(currenPage - itemPerPage);
     }
   };
@@ -24,18 +25,28 @@ const usePaginator = (props) => {
     setItemPerPage(cantItem);
   };
 
+  const Filter = (filterData) => {
+    setDataToFilter(filterData);
+  };
+
   useEffect(() => {
     const Myfunc = async () =>
       setItemsToShow(
-        await getPagination({ itemPerPage, currenPage, totalItems })
+        await getPagination({
+          itemPerPage,
+          currenPage,
+          totalItems,
+          dataTofilter,
+        })
       );
     Myfunc();
-  }, [currenPage, itemPerPage]);
+  }, [currenPage, itemPerPage, dataTofilter]);
 
   return {
     nextPage,
     backPage,
     showPerpage,
+    Filter,
     currenPage,
     itemsToShow,
     totalItems,
