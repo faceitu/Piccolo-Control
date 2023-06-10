@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { getPagination } from "../firebaseConfig";
 
 const usePaginator = (props) => {
-  const [currenPage, setCurrentPage] = useState(1);
+  const [currenPage, setCurrentPage] = useState(0);
   const [itemPerPage, setItemPerPage] = useState(5);
   const [items, setItems] = useState([props]);
   const [itemsToShow, setItemsToShow] = useState([]);
@@ -26,6 +26,7 @@ const usePaginator = (props) => {
   };
 
   const Filter = (filterData) => {
+    setCurrentPage(0)
     setDataToFilter(filterData);
   };
 

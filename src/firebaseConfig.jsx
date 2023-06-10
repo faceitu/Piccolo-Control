@@ -139,28 +139,41 @@ export async function GetArtLimpieza() {
 /*  PAGINACION */
 
 export async function getPagination(props) {
-  console.log(props);
   return new Promise(async (resolve, reject) => {
     const { itemPerPage, currenPage, totalItems } = props;
-
-    const first = query(
-      collection(db, "Gastos"),
-      where("FechaProducto", "==", props.dataTofilter)
-    );
-    const documentSnapshots = await getDocs(first);
-
+    console.log('data to filer', props.dataTofilter)
     var last = {};
-    if (currenPage === 1) {
+    var first = [];
+    
+    if (props.dataTofilter)  {
+       first = query(
+        collection(db, "Gastos"),
+        where( "FechaProducto", "==", props.dataTofilter )
+      );
+    } else {
+       first = query(
+        collection(db, "Gastos"), orderBy('FechaProducto')
+        
+      );
+    }
+
+    const documentSnapshots = await getDocs(first);
+     
+    var last = {};
+   
+    if (currenPage === 0) {
       last = documentSnapshots.docs[currenPage];
+    
     } else {
       last = documentSnapshots.docs[currenPage + itemPerPage];
     }
+ 
 
     let queryy = query(
       collection(db, "Gastos"),
       orderBy("FechaProducto"),
       startAt(last),
-      limit(itemPerPage)
+      limit(itemPerPage <  documentSnapshots.docs.length ? itemPerPage : documentSnapshots.docs.length)
     );
 
     const select = [];
@@ -168,6 +181,7 @@ export async function getPagination(props) {
       snap.docs.forEach((doc) => {
         select.push(doc.data());
       });
+   
       resolve(select);
     });
     console.log(reject);
