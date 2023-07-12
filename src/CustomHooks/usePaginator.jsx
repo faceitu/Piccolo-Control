@@ -1,47 +1,32 @@
 import { useState, useEffect } from "react";
 import { getPagination } from "../firebaseConfig";
 
-const usePaginator = (props) => {
-  const [currenPage, setCurrentPage] = useState(0);
-  const [itemPerPage, setItemPerPage] = useState(5);
-  const [items, setItems] = useState([props]);
+const usePaginator = () => {
+  const [currenPage, setCurrentPage] = useState(1);
+  const [size, setSize] = useState(5);
   const [itemsToShow, setItemsToShow] = useState([]);
   const [totalItems, setTotalItems] = useState(0);
   const [dataTofilter, setDataToFilter] = useState("");
 
-  const nextPage = () => {
-    console.log(itemsToShow.length, itemPerPage);
-    if (!(itemsToShow.length < itemPerPage)) {
-      setCurrentPage(currenPage + itemPerPage);
+  const nextPage = (cantTottalItems) => {
+    if (currenPage <= cantTottalItems / size) {
+      setCurrentPage(currenPage + 1);
     }
   };
 
   const backPage = () => {
-    if (!(currenPage - itemPerPage < 0)) {
-      setCurrentPage(currenPage - itemPerPage);
+    if (currenPage > 1) {
+      setCurrentPage(currenPage - 1);
     }
   };
   const showPerpage = (cantItem) => {
-    setItemPerPage(cantItem);
+    setSize(cantItem);
   };
 
   const Filter = (filterData) => {
-    setCurrentPage(0)
+    setCurrentPage(0);
     setDataToFilter(filterData);
   };
-
-  useEffect(() => {
-    const Myfunc = async () =>
-      setItemsToShow(
-        await getPagination({
-          itemPerPage,
-          currenPage,
-          totalItems,
-          dataTofilter,
-        })
-      );
-    Myfunc();
-  }, [currenPage, itemPerPage, dataTofilter]);
 
   return {
     nextPage,
@@ -51,6 +36,7 @@ const usePaginator = (props) => {
     currenPage,
     itemsToShow,
     totalItems,
+    size,
   };
 };
 

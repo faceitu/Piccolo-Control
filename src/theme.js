@@ -1,9 +1,10 @@
 import {extendTheme} from "@chakra-ui/react";
+import '@fontsource/roboto'
 
 const theme = extendTheme({
   fonts: {
-    heading: `'Open Sans', sans-serif`,
-    body: `'Raleway', sans-serif`,
+    heading: `'roboto'`,
+    body: `'roboto'`,
   },
 
     colors: {
@@ -12,8 +13,8 @@ const theme = extendTheme({
        
       },
      secondary: {
-        main: "#884299",
-        dos: '#884299',
+        main: "#014ba0",
+        dos: '#014ba0',
         tres: '#fff0ff',
         cuatro: '#dbb6ee'
 

@@ -1,18 +1,18 @@
-import { Stack, Text } from "@chakra-ui/react";
+import { Stack, Text, Image, Box } from "@chakra-ui/react";
 import React from "react";
 import { app } from "../../firebaseConfig";
 import { setCurrentUser } from "../../redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { logOut } from "../../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const LogSuccessful = (user) => {
+  const { logout } = useAuth0();
   const dispatch = useDispatch();
   const navigate = useNavigate;
-
   const handlerOut = () => {
-    app.auth().signOut() && dispatch(logOut());
-    navigate("/home");
+    logout();
   };
   return (
     <Stack
@@ -21,7 +21,15 @@ const LogSuccessful = (user) => {
       justifyContent="space-between"
       gap={8}
     >
-      <Text>{user.user}</Text>
+      <Text>{user.user.name}</Text>
+
+      <Image
+        src={user.user.picture}
+        alt={user.user.name}
+        borderRadius="full"
+        boxSize="50px"
+      />
+
       <Text
         _hover={{ cursor: "Pointer", textDecoration: "underline" }}
         onClick={handlerOut}

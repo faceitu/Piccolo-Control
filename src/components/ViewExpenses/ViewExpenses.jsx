@@ -89,12 +89,7 @@ const ViewExpense = () => {
       </FormControl>
       <Stack direction={"column"} mb={8}></Stack>
       <TableContainer>
-        <Table
-          variant="striped"
-          size="sm"
-          margin={"auto"}
-          bg={theme.colors.secondary.cuatro}
-        >
+        <Table variant="striped" size="sm" margin={"auto"}>
           <TableCaption>Imperial to metric conversion factors</TableCaption>
           <Thead>
             <Tr>
@@ -107,11 +102,7 @@ const ViewExpense = () => {
           <Tbody color="black">
             {itemsToShow.map((pro) => {
               return (
-                <Tr
-                  _hover={{
-                    bg: theme.colors.secondary.main,
-                  }}
-                >
+                <Tr>
                   <Td>{pro.NombrePrducto}</Td>
                   <Td>{pro.CantidadProducto}</Td>
                   <Td>{pro.PrecioProducto}</Td>

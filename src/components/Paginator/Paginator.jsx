@@ -1,8 +1,5 @@
-import React from "react";
+import useEffect from "react";
 import { Text, Button, Select, HStack } from "@chakra-ui/react";
-import { AddIcon, ArrowLeftIcon, ArrowRightIcon } from "@chakra-ui/icons";
-import { Divider } from "@chakra-ui/react";
-import { getPagination } from "../../firebaseConfig";
 
 const Paginator = (props) => {
   const handleChange = (event) => {

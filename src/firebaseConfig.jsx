@@ -109,6 +109,22 @@ export async function GetProducts() {
   } catch (error) {}
 }
 
+export async function GetProduct(props) {
+  try {
+    const q = doc(db, "Productos", props);
+    const docu = await getDoc(q);
+    console.log("este es el docu", docu);
+    console.log(docu.data());
+  } catch {
+    console.log("error");
+  }
+  /*  getDoc(q).then((doc) => console.log("este", doc.data()));
+} */
+
+  /* querySnapshot.forEach((doc) => {
+      provedores.push(doc.data());
+    }); */
+}
 export async function GetGasto() {
   try {
     const first = query(collection(db, "Gastos"), orderBy("FechaProducto"));
@@ -139,41 +155,28 @@ export async function GetArtLimpieza() {
 /*  PAGINACION */
 
 export async function getPagination(props) {
+  console.log(props);
   return new Promise(async (resolve, reject) => {
     const { itemPerPage, currenPage, totalItems } = props;
-    console.log('data to filer', props.dataTofilter)
-    var last = {};
-    var first = [];
-    
-    if (props.dataTofilter)  {
-       first = query(
-        collection(db, "Gastos"),
-        where( "FechaProducto", "==", props.dataTofilter )
-      );
-    } else {
-       first = query(
-        collection(db, "Gastos"), orderBy('FechaProducto')
-        
-      );
-    }
 
+    const first = query(
+      collection(db, "Gastos"),
+      where("FechaProducto", "==", props.dataTofilter)
+    );
     const documentSnapshots = await getDocs(first);
-     
+
     var last = {};
-   
-    if (currenPage === 0) {
+    if (currenPage === 1) {
       last = documentSnapshots.docs[currenPage];
-    
     } else {
       last = documentSnapshots.docs[currenPage + itemPerPage];
     }
- 
 
     let queryy = query(
       collection(db, "Gastos"),
       orderBy("FechaProducto"),
       startAt(last),
-      limit(itemPerPage <  documentSnapshots.docs.length ? itemPerPage : documentSnapshots.docs.length)
+      limit(itemPerPage)
     );
 
     const select = [];
@@ -181,7 +184,6 @@ export async function getPagination(props) {
       snap.docs.forEach((doc) => {
         select.push(doc.data());
       });
-   
       resolve(select);
     });
     console.log(reject);
