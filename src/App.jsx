@@ -12,6 +12,7 @@ import axios, { isCancel, AxiosError } from "axios";
 import Home from "./pages/Home/Home";
 import { setCurrentUser } from "../src/redux/user/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import {Stack} from "@chakra-ui/react";
 
 function App() {
   const {
@@ -43,10 +44,13 @@ function App() {
   return (
     <>
       {isAuthenticated ? (
+        <>
         <Layout>
           <Header />
           <Rutas />
         </Layout>
+        <Stack height={'300px'}> </Stack>
+       </>
       ) : (
         <logIn></logIn>
       )}

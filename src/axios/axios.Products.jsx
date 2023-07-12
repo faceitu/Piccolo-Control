@@ -37,8 +37,7 @@ export async function dataView(currentItem, page, size) {
 
 export async function searchProduct(product) {
   try {
-    const sProduct = axios.get(`${BASE_URL}products?Nombre=${product}`);
-
+    const sProduct = axios.get(`${BASE_URL}products?Nombre=${product}`)
     return sProduct;
   } catch (error) {}
 }
@@ -47,7 +46,6 @@ export async function borrar() {
   const products = await axios.get(
     "https://sam-api.lepis.ar/entities/products"
   );
-  console.log(products);
   products.data.elements.map(async (produ) => {
     await axios
       .delete(`${BASE_URL}products/${produ.id}`)
@@ -57,12 +55,24 @@ export async function borrar() {
 
 export async function borrar2() {
   const products = await axios.get("https://sam-api.lepis.ar/entities/sales");
-  console.log(products);
   products.data.elements.map(async (produ) => {
     await axios
       .delete(`${BASE_URL}sales/${produ.id}`)
       .then("se borro", produ.id);
   });
+}
+
+export async function costUpdate(product, cost) {
+  try {
+    
+          axios.put(`${BASE_URL}products?Nombre=${product.Nombre}`, {
+            Nombre: cost
+
+          })
+
+     
+  
+  } catch (error) {console.log(error)}
 }
 
 /* 

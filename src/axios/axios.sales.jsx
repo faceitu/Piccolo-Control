@@ -15,3 +15,4 @@ export async function viewSales() {
     return sales.data.elements;
   } catch (error) {}
 }
+
