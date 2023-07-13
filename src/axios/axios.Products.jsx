@@ -64,17 +64,13 @@ export async function borrar2() {
 
 export async function costUpdate(product, cost) {
   try {
-    
-          axios.put(`${BASE_URL}products?Nombre=${product.Nombre}`, {
-            Nombre: cost
-
-          })
-
-     
-  
-  } catch (error) {console.log(error)}
+    console.log(product, cost)
+            axios.put(`${BASE_URL}products/${product.id}` , {
+              'PrecioVenta': cost,            
+            }).then(res => console.log(res))
+          }    
+   catch (error) {console.log(error)}
 }
-
 /* 
 GET {{protocol}}://{{host}}/entities/providers?cuit=20310194698 HTTP/1.1
 content-type: {{contentType}}

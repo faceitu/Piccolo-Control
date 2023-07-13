@@ -29,11 +29,11 @@ const Header = () => {
         align="center"
         wrap="wrap"
         bg={theme.colors.secondary.dos}
-        p={"20px"}
+        p={"10px"}
       >
         <HStack>
           {isAuthenticated && <HamburgerMenu />}
-          <Text fontSize={"4xl"} color="white">
+          <Text fontSize={"3xl"} color="white">
             Piccolo Polleria
           </Text>
         </HStack>

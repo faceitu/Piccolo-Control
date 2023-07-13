@@ -13,6 +13,15 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import {
+  BsTrash,
+  BsFillXCircleFill,
+  BsFillCheckCircleFill,
+  BsPlusCircleFill,
+  BsFillPencilFill,
+  BsCashCoin,
+  BsCurrencyExchange
+} from "react-icons/bs";
 
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { Link as Linkto } from "react-router-dom";
@@ -27,7 +36,7 @@ const HamburgerMenu = ({ children }) => {
         <IconButton
           marginRight={"20px"}
           aria-label="Menu"
-          icon={<HamburgerIcon color={"white"} boxSize={10} />}
+          icon={<HamburgerIcon color={"white"} boxSize={6} />}
           variant="ghost"
           onClick={onOpen}
         />
@@ -44,10 +53,18 @@ const HamburgerMenu = ({ children }) => {
           <DrawerHeader bg={"#34312f"} color="white">
             Menú
           </DrawerHeader>
-          <DrawerBody>
-            <Stack spacing={4}>
-              <Linkto to="/home">Home</Linkto>
-              <Linkto to="/movimientos">Movimientos</Linkto>
+          <DrawerBody  >
+            <Stack spacing={4} fontSize={18} ml={4} mt={10} width={'100%'}>
+              <Stack flexDirection={'row'} spacing={6}  _hover={  {bg: "#dceafc", color: "black"} } >
+                   <BsCashCoin size={30} color="#b21f57" />
+                   <Linkto to="/home" width = '100%'>Home</Linkto>
+              </Stack>
+              <Stack flexDirection={'row'} spacing={6}>
+              <BsCurrencyExchange size={30} color="#b21f57" />
+                 <Linkto to="/movimientos">Movimientos</Linkto>
+              </Stack>
+             
+             
               <Linkto to="/alta-proovedores">Alta de Proovedores</Linkto>
               <Linkto to="/lista-proovedores">Ver Proveedores</Linkto>
               <Linkto to="/lista-productos">Ver Productos</Linkto>

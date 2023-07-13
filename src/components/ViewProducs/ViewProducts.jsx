@@ -11,7 +11,12 @@ import {
   Th,
   Thead,
   Tr,
-  Input
+  Input,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+  cookieStorageManager,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import theme from "../../theme";
@@ -23,10 +28,13 @@ import {
   BsFillXCircleFill,
   BsFillCheckCircleFill,
   BsPlusCircleFill,
+  BsFillPencilFill
 } from "react-icons/bs";
 import Paginator from "../Paginator/Paginator";
 import usePaginator from "../../CustomHooks/usePaginator";
 import {costUpdate} from "../../axios/axios.Products"
+import swal from "sweetalert";
+import { bg } from "date-fns/locale";
 const ViewProducts = () => {
   const {
     currenPage,
@@ -41,7 +49,7 @@ const ViewProducts = () => {
   const [itemsTotal, setItemsTotal] = useState();
   const [currentItem, setCurrentItem] = useState("products");
   const [productos, setProductos] = useState({});
-  const [newCost, setNewCost] = useState();
+  const [newCost, setNewCost] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -49,72 +57,89 @@ const ViewProducts = () => {
       setProductos(await dataView(currentItem, currenPage, size));
     };
     verlos();
-  }, [currentItem, currenPage, size]);
+  }, [currentItem, currenPage, size, productos]);
 
   const handleNewCost = (e) => {
       setNewCost(e.target.value)
   }
+
   const handleChangeCost = (e, product, cost) => {
-    costUpdate(product, cost)
+    if (cost >= 1) { 
+      swal({
+        title: "Desea confirmar? :",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          swal("Se actualizo el precio", {
+            icon: "success",
+          });
+          costUpdate(product, cost)
+        }
+      });
+    } else {
+      swal("Los valores no peuden ser negativos", {
+        icon: "error",
+        
+      });
+    }
     
-   
   }
-
-
   return (
-    <Stack direction={"column"} width="80vw" margin={"auto"}>
-      <Stack direction={"column"} mb={8}>
-        <TableContainer mt={20}>
-          <Table size="md" margin={"auto"}>
+    <Stack direction={"column"} width="80vw" margin={"auto"} >
+      <Stack direction={"column"} mb={8} padding={1}>
+        <TableContainer mt={20} padding={1}>
+          <Table size="md" margin={"auto"}  >
             <Thead>
-              <Tr>
+              <Tr padding={1}>
                 <Th>PRODUCTO</Th>
                 <Th>PRECIO COSTO</Th>
-                <Th>PRECIO VENTA</Th>
+                <Th >PRECIO VENTA</Th>
                 <Th>PROVEEDOR</Th>
-                <Th>TROZABLE</Th>
+                <Th>OPCIONES</Th>
               </Tr>
             </Thead>
-            <Tbody color="black">
+            <Tbody color="black" padding={1}>
               {productos?.data?.elements?.map((pro,index) => (
-                <Tr key={pro.id}>
-                  <Td>{pro.Nombre}</Td>
-                  <Td>{pro.PrecioCosto}</Td>
-                  <Td>
-                  <Input
+                <Tr key={pro.id} padding={1}  _hover={{ bg: "#dceafc", color: "black" }}>
+                  <Td padding={2}>{pro.Nombre}</Td>
+                  <Td padding={2}>{pro.PrecioCosto}</Td>
+                  <Td padding={2}>
+                  <Input 
+                        color={ newCost >= 1 ? 'green' : 'red'}
                         required
                         textAlign={"center"}
                         type="number"
-                    /*     value={pro.PrecioVenta || ""} */
+                        min={1}
+                        width={'80px'}
+                        defaultValue={pro.PrecioVenta || ""}
                         variant="flushed"  
-                        placeholder= {pro.PrecioVenta}
+                      /*   placeholder= {pro.PrecioVenta} */
                         onChange={handleNewCost}
                       ></Input>
-                    </Td>
-                  <Td>{pro.Proveedor}</Td>
-                  <Td textAlign={"center"}>
-                      <HStack>
-                        <Button
-                          
-                          _hover={{ bg: "#96b3ff", color: "white" }}
-                        >
-                          <BsTrash size={"20"} />
-                        </Button>
-                      </HStack>
-                    </Td>
-                    <Td textAlign={"center"}>
-                      <HStack>
-                        <Button
+                       <Button
                             onClick={(e) =>
                               handleChangeCost(e, pro, newCost)
                             }
                           _hover={{ bg: "#96b3ff", color: "white" }}
+                          mr = {2}
+                          variant='ghost'
+                          padding={1}
                         >
-                         <BsPlusCircleFill  color="#b21f57" />
+                         <BsFillPencilFill color="#b21f57" padding={1} />
                         </Button>
-                      </HStack>
                     </Td>
-                    
+                  <Td padding={2}>{pro.Proveedor}</Td>
+                  <Td textAlign={"center"} padding={2}  >
+                       
+                        <Button   
+                          _hover={{ bg: "#96b3ff", color: "white" }}
+                          variant='ghost'
+                        >
+                          <BsTrash  color="#b21f57"/>
+                        </Button>
+                    </Td>    
                 </Tr>
               ))}
             </Tbody>
@@ -126,11 +151,11 @@ const ViewProducts = () => {
             padding="0"
             variant="ghost"
           >
-            <BsPlusCircleFill size={60} color="#b21f57" />
+            <BsPlusCircleFill size={40} color="#b21f57" />
           </Button>
         </Stack>
       </Stack>
-      <Stack mt={20}>
+      <Stack mt={10} justifyContent={'center'} alignItems={'center'}>
         <Paginator
           currentPage={currenPage}
           nextPage={() => nextPage(productos?.data?.total)}

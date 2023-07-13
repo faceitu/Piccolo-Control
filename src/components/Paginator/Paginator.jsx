@@ -8,22 +8,13 @@ const Paginator = (props) => {
 
   return (
     <HStack
-      width="90%"
+      width="70%"
       alignItems={"center"}
-      justifyContent={"center"}
+      justifyContent={'center'}
       flexDirection={"colum"}
     >
-      <HStack justifyContent={"flex-start"} alignItems={"center"} width={"70%"}>
-        <Select
-          onChange={handleChange}
-          placeholder="Select option"
-          width={"200px"}
-        >
-          <option value="5">5</option>
-          <option value="10">10</option>
-          <option value="20">20</option>
-        </Select>
-      </HStack>
+      <HStack justifyContent={"center"} alignItems={"center"} width={"70%"}>
+        
 
       <HStack
         width={"80%"}
@@ -31,16 +22,26 @@ const Paginator = (props) => {
         justifyContent={"space-between"}
         alignItems={"center"}
       >
+        <Select
+          onChange={handleChange}
+          placeholder="Select option"
+          width={"160px"}
+        >
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="20">20</option>
+        </Select>
+      </HStack>
         <HStack width={"80%"} alignItems={"center"}>
-          <Text as="b" fontSize={20}>
+          <Text as="b" fontSize={14}>
             Showing {props.currentPage} to 10 of {props.totalItems} Results
           </Text>
         </HStack>
-        <HStack width={"20%"} flexDirection={"row"}>
-          <Button colorScheme="blue" onClick={props.backPage}>
+        <HStack width={"30%"} flexDirection={"row"} >
+          <Button colorScheme="blue" onClick={props.backPage} height={'24px'}>
             Prev
           </Button>
-          <Button colorScheme="blue" onClick={props.nextPage}>
+          <Button colorScheme="blue" onClick={props.nextPage} height={'24px'}>
             Next
           </Button>
         </HStack>
